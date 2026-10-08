@@ -25,11 +25,11 @@ class handler(BaseHTTPRequestHandler):
         is_new_session = data.get("session", {}).get("new", False)
 
         if is_new_session and not command:
-            reply = "Привет! Я подключен к модели Gemini. О чем хотите поговорить?"
+            reply = "Мозг подключен"
         else:
             try:
                 response = model.generate_content(command)
-                reply = response.text or "Не удалось сформировать ответ."
+                reply = response.text or "Ну ебенбобен"
             except Exception as e:
                 reply = f"Ошибка: {str(e)[:100]}"
 
