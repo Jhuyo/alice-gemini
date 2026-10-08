@@ -29,7 +29,7 @@ class handler(BaseHTTPRequestHandler):
         else:
             try:
                 response = model.generate_content(command)
-                reply = response.text or "Ну ебенбобен"
+                reply = response.text or "Ну емае"
             except Exception as e:
                 reply = f"Ошибка: {str(e)[:100]}"
 
