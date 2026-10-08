@@ -29,7 +29,7 @@ class handler(BaseHTTPRequestHandler):
                 )
                 reply = response.text or "Не удалось получить ответ."
             except Exception:
-                reply = "Ну пиздец."
+                reply = "Ну сколько можно... Опять все сломалось."
 
         result = {
             "response": {
