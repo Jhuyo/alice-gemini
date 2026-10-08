@@ -1,9 +1,18 @@
 import json
 import os
 from http.server import BaseHTTPRequestHandler
-from google import genai
+import google.generativeai as genai
 
-client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
+# Настройка ключа
+genai.configure(api_key=os.environ.get("GEMINI_API_KEY"))
+model = genai.GenerativeModel(
+    model_name="gemini-1.5-flash",
+    system_instruction=(
+        "Ты голосовой ассистент в умной колонке Яндекс Станция. "
+        "Отвечай кратко, емко, без использования Markdown-разметки (не используй звездочки, решетки, жирный шрифт), "
+        "так как твой ответ будет зачитан синтезатором речи Алисы."
+    )
+)
 
 class handler(BaseHTTPRequestHandler):
     def do_POST(self):
@@ -19,15 +28,8 @@ class handler(BaseHTTPRequestHandler):
             reply = "Привет! Я подключен к модели Gemini. О чем хотите поговорить?"
         else:
             try:
-                response = client.models.generate_content(
-                    model="models/gemini-1.5-flash",
-                    contents=(
-                        "Ты голосовой ассистент в колонке Яндекс Станция. "
-                        "Отвечай кратко, емко, без Markdown-разметки (без звездочек и решеток), "
-                        f"так как твой ответ будет зачитан голосом. Запрос: {command}"
-                    ),
-                )
-                reply = response.text or "Не удалось получить ответ."
+                response = model.generate_content(command)
+                reply = response.text or "Не удалось сформировать ответ."
             except Exception as e:
                 reply = f"Ошибка: {str(e)[:100]}"
 
