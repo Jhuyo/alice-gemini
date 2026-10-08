@@ -16,11 +16,11 @@ class handler(BaseHTTPRequestHandler):
         is_new_session = data.get("session", {}).get("new", False)
 
         if is_new_session and not command:
-            reply = "Мозг включен"
+            reply = "Привет! Я подключен к модели Gemini. О чем хотите поговорить?"
         else:
             try:
                 response = client.models.generate_content(
-                    model="gemini-1.5-flash",
+                    model="models/gemini-1.5-flash",
                     contents=(
                         "Ты голосовой ассистент в колонке Яндекс Станция. "
                         "Отвечай кратко, емко, без Markdown-разметки (без звездочек и решеток), "
@@ -28,8 +28,8 @@ class handler(BaseHTTPRequestHandler):
                     ),
                 )
                 reply = response.text or "Не удалось получить ответ."
-            except Exception:
-                reply = "Ну сколько можно... Опять все сломалось."
+            except Exception as e:
+                reply = f"Ошибка: {str(e)[:100]}"
 
         result = {
             "response": {
