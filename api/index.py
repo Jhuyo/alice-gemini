@@ -6,7 +6,7 @@ import google.generativeai as genai
 # Настройка ключа
 genai.configure(api_key=os.environ.get("GEMINI_API_KEY"))
 model = genai.GenerativeModel(
-    model_name="gemini-1.5-flash",
+    model_name="gemini-3.5-flash",
     system_instruction=(
         "Ты голосовой ассистент в умной колонке Яндекс Станция. "
         "Отвечай кратко, емко, без использования Markdown-разметки (не используй звездочки, решетки, жирный шрифт), "
